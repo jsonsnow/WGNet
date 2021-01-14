@@ -7,7 +7,7 @@ target 'WGNet_Example' do
 
   target 'WGNet_Tests' do
     inherit! :search_paths
-
+    pod 'Moya'
     pod 'FBSnapshotTestCase'
   end
 end
