@@ -15,29 +15,31 @@ public class ApiPath {
     }
 }
 
+let urlParam = [String: Any]()
 
 @objc open class WGBaseTargetAPI: NSObject {
-    public typealias BaseParamsClosure = (String) -> [String: Any]
-    public typealias BaseHeadersClosure = (String) -> [String: String]?
+    public typealias ParamsClosure = (String) -> [String: Any]
     public typealias BaseUrlClosure = (String) -> String
-    let commonParamsClosure: BaseParamsClosure
-    let commonHeadersClosure: BaseHeadersClosure
+
     let baseUrlClosure: BaseUrlClosure
-    var apiPath: ApiPath!
-    @objc public init(paramsClosure: @escaping BaseParamsClosure, headerClosure: @escaping BaseHeadersClosure, baseUrlClosure: @escaping BaseUrlClosure) {
-        self.commonParamsClosure = paramsClosure
-        self.commonHeadersClosure = headerClosure
+    var apiPath: String
+    let paramsClosure: ParamsClosure
+    
+    @objc public init(paramsClosure: @escaping ParamsClosure,baseUrlClosure: @escaping BaseUrlClosure,  path: String) {
+        self.paramsClosure = paramsClosure
         self.baseUrlClosure = baseUrlClosure
+        self.apiPath = path
     }
 }
 
 extension WGBaseTargetAPI: TargetType {
+    
     public var baseURL: URL {
-        URL.init(string: self.baseUrlClosure(type(of: self).description()))!
+        return URL.init(string: baseUrlClosure(type(of: self).description()))!
     }
 
     public var path: String {
-        return apiPath.path
+        return apiPath
     }
 
     public var method: Moya.Method {
@@ -53,12 +55,14 @@ extension WGBaseTargetAPI: TargetType {
     }
 
     public var headers: [String : String]? {
-        return commonHeadersClosure(type(of: self).description())
+        return nil
     }
 
 
     public var task: Task {
-        return .requestParameters(parameters: commonParamsClosure(type(of: self).description()), encoding: URLEncoding.default)
+        let params = paramsClosure(type(of: self).description())
+        return .requestCompositeParameters(bodyParameters: params, bodyEncoding: JSONEncoding.default, urlParameters: urlParam)
     }
+    
 }
 

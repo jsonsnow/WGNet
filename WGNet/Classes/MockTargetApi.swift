@@ -1,13 +1,15 @@
 //
-//  WGOrderTargetApi.swift
+//  MockTargetApi.swift
 //  WGNet
 //
 //  Created by chen liang on 2021/1/15.
 //
 
-import UIKit
+import Foundation
+import Moya
 
-class WGOrderTargetApi: WGBaseTargetAPI {
+//mock 服务器
+class MockTargetApi: WGBaseTargetAPI {
     public convenience init(params: [String: Any], path: String) {
         self.init(paramsClosure: { (target) -> [String : Any] in
             return params

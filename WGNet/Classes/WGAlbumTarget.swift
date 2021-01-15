@@ -9,17 +9,11 @@ import UIKit
 import Moya
 
 class WGAlbumTarget: WGBaseTargetAPI {
-    
-    public convenience init(path: String, params:[String: Any]?) {
+    public convenience init(params: [String: Any], path: String) {
         self.init(paramsClosure: { (target) -> [String : Any] in
-            guard let _params = params else {
-                return [String: Any]()
-            }
-            return _params
-        }, headerClosure: { (target) -> [String : String]? in
-            return nil
-        }) { (target) -> String in
+            return params
+        }, baseUrlClosure: { (target) -> String in
             return "https://www.wsxcme.com/"
-        }
+        }, path: path)
     }
 }
