@@ -152,8 +152,10 @@ public class NetLayer: NSObject {
     public private(set) var netDebugValue: String?
     
     private override init() {
-        HTTPSManager.init().setAlamofireHttps()
         super.init()
+        albumProvider.manager.delegate.sessionDidReceiveChallenge = {(session , change) in
+            return self.trustServer(challenge: change)
+        }
     }
     
   
@@ -183,6 +185,16 @@ public class NetLayer: NSObject {
         return NetCancellable.init(cancellable: cancelable)
     }
     
+}
+
+extension NetLayer {
+    //不做任何验证，直接信任服务器
+    private func trustServer(challenge: URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?) {
+        let disposition = URLSession.AuthChallengeDisposition.useCredential
+        let credential = URLCredential.init(trust: challenge.protectionSpace.serverTrust!)
+        return (disposition, credential)
+        
+    }
 }
 
 //MARK: -- Handler result

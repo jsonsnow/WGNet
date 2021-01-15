@@ -18,10 +18,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     NSDictionary *dict = @{@"client_type":@"ios",@"platform":@"app",@"version":@"2.8.23",@"channel":@"enterprise"};
+     NSDictionary *dict = @{@"client_type":@"ios",@"platform":@"app",@"version":@"2823",@"channel":@"enterprise"};
     NSDictionary *headers = @{@"wego-albumID": @"",
                               @"wego-channel": @"ios",
-                              @"wego-version": @"2.8.23",
+                              @"wego-version": @"2823",
                               @"wego-staging": @"0"};
     
     [[NetLayer net] configDefaultParams:dict];
