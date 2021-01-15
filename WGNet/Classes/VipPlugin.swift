@@ -8,7 +8,7 @@
 import Foundation
 import Moya
 
-public class VipPLugin: Moya.PluginType {
+public class VipPlugin: Moya.PluginType {
     
     public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         

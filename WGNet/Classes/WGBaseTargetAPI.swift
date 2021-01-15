@@ -14,15 +14,17 @@ public class ApiPath {
         self.path = path
     }
 }
-open class WGBaseTargetAPI {
-    public typealias BaseParamsClosure = (TargetType) -> [String: Any]
-    public typealias BaseHeadersClosure = (TargetType) -> [String: String]?
-    public typealias BaseUrlClosure = (TargetType) -> String
+
+
+@objc open class WGBaseTargetAPI: NSObject {
+    public typealias BaseParamsClosure = (String) -> [String: Any]
+    public typealias BaseHeadersClosure = (String) -> [String: String]?
+    public typealias BaseUrlClosure = (String) -> String
     let commonParamsClosure: BaseParamsClosure
     let commonHeadersClosure: BaseHeadersClosure
     let baseUrlClosure: BaseUrlClosure
     var apiPath: ApiPath!
-    public init(paramsClosure: @escaping BaseParamsClosure, headerClosure: @escaping BaseHeadersClosure, baseUrlClosure: @escaping BaseUrlClosure) {
+    @objc public init(paramsClosure: @escaping BaseParamsClosure, headerClosure: @escaping BaseHeadersClosure, baseUrlClosure: @escaping BaseUrlClosure) {
         self.commonParamsClosure = paramsClosure
         self.commonHeadersClosure = headerClosure
         self.baseUrlClosure = baseUrlClosure
@@ -31,7 +33,7 @@ open class WGBaseTargetAPI {
 
 extension WGBaseTargetAPI: TargetType {
     public var baseURL: URL {
-        URL.init(string: self.baseUrlClosure(self))!
+        URL.init(string: self.baseUrlClosure(type(of: self).description()))!
     }
 
     public var path: String {
@@ -51,12 +53,12 @@ extension WGBaseTargetAPI: TargetType {
     }
 
     public var headers: [String : String]? {
-        return commonHeadersClosure(self)
+        return commonHeadersClosure(type(of: self).description())
     }
 
 
     public var task: Task {
-        return .requestParameters(parameters: commonParamsClosure(self), encoding: URLEncoding.default)
+        return .requestParameters(parameters: commonParamsClosure(type(of: self).description()), encoding: URLEncoding.default)
     }
 }
 
