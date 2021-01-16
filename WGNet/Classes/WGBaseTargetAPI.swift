@@ -61,7 +61,7 @@ extension WGBaseTargetAPI: TargetType {
 
     public var task: Task {
         let params = paramsClosure(type(of: self).description())
-        return .requestCompositeParameters(bodyParameters: params, bodyEncoding: JSONEncoding.default, urlParameters: urlParam)
+        return .requestCompositeParameters(bodyParameters: params, bodyEncoding: URLEncoding.init(destination: .httpBody, arrayEncoding: .brackets, boolEncoding: .numeric), urlParameters: urlParam)
     }
     
 }

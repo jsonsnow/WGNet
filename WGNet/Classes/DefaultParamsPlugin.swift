@@ -36,7 +36,7 @@ public class DefaultParamsPlugin: Moya.PluginType {
                         return first
                     }
                 }
-                if let jsonEncode = encode as? JSONEncoding {
+                if let jsonEncode = encode as? URLEncoding {
                     req = try jsonEncode.encode(req, with: params)
                 }
             } catch _ {

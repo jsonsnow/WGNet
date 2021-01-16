@@ -127,6 +127,7 @@ let netDebugPlugin = NetDebugPlugin.init()
 
 let albumProvider = MoyaProvider<WGAlbumTarget>(plugins: [netDebugPlugin, paramsPlugin, logPlugin, vipPlugin, loggerPlugin])
 let orderProvider = MoyaProvider<WGOrderTargetApi>(plugins: [netDebugPlugin, paramsPlugin, logPlugin, vipPlugin, loggerPlugin])
+let mockProvider = MoyaProvider<MockTargetApi>(plugins: [netDebugPlugin, paramsPlugin, logPlugin, vipPlugin, loggerPlugin])
 
 public class NetCancellable: NSObject {
     
@@ -185,6 +186,18 @@ public class NetLayer: NSObject {
         return NetCancellable.init(cancellable: cancelable)
     }
     
+    @discardableResult
+    @objc public func mockRequst(path: String, params: [String: Any]?, callback: @escaping CallbackClosure) -> NetCancellable {
+        let cancelable = mockProvider.request(MockTargetApi.init(params: params ?? [String: Any](), path: path)) { (result) in
+            switch result {
+            case let .success(response):
+                callback(self.handleResponse(response))
+            case let .failure(error):
+                callback(self.handleError(error))
+            }
+        }
+        return NetCancellable.init(cancellable: cancelable)
+    }
 }
 
 extension NetLayer {

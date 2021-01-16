@@ -18,15 +18,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     NSDictionary *dict = @{@"client_type":@"ios",@"platform":@"app",@"version":@"2823",@"channel":@"enterprise"};
+     NSDictionary *dict = @{@"client_type":@"ios",
+                            @"platform":@"app",
+                            @"version":@"2823",
+                            @"channel":@"enterprise",
+                            @"system_version":@"13.4.1",
+                            @"token":@"OTRGOTRDRDUyOEQ4Qjg3Nzc5RjlDNUQxRjIxRTQ2QzcwQjI1QkUxRkNBRUI4QTA1RjVDNERBQTY0MUYwRkM2RDgzQUYwRDcwRkNCMUEzRkMxMjNBOEJERTVBMjYxNEI2"
+     };
     NSDictionary *headers = @{@"wego-albumID": @"",
                               @"wego-channel": @"ios",
                               @"wego-version": @"2823",
-                              @"wego-staging": @"0"};
+                              @"wego-staging": @"0",
+                              
+    };
     
     [[NetLayer net] configDefaultParams:dict];
     [[NetLayer net] configDefaultHeaders:headers];
-    [[NetLayer net] albumRequstWithPath:@"service/sys/sys_config.jsp" params:@{@"act":@"get_ios_config"} callback:^(WGConnectData * _Nonnull data) {
+    [[NetLayer net] albumRequstWithPath:@"service/sys/sys_config.jsp" params:@{@"act": @"get_ios_config"} callback:^(WGConnectData * _Nonnull data) {
+        
+    }];
+    [[NetLayer net] albumRequstWithPath:@"album/personal/all" params:@{@"albumId": @"A201903020936258040206326"} callback:^(WGConnectData * _Nonnull data) {
         
     }];
     
