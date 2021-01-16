@@ -37,7 +37,7 @@
     [[NetLayer net] configDefaultHeaders:headers];
     
     [[NetLayer net] albumRequstWithPath:@"service/sys/sys_config.jsp" params:@{@"act": @"get_ios_config"} callback:^(WGConnectData * _Nonnull data) {
-        
+//        NSLog(@"%@", data.result);
     }];
     [[NetLayer net] albumRequstWithPath:@"album/personal/all" params:@{@"albumId": @"A201903020936258040206326"} callback:^(WGConnectData * _Nonnull data) {
         

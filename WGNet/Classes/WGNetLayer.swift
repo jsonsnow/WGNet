@@ -214,12 +214,30 @@ extension NetLayer {
 extension NetLayer {
     private func handleResponse(_ response: Response) -> WGConnectData {
         let data = WGConnectData.init()
+        data.isSuccess = true
+        data.errType = .kConnect_none
+        let json = try? response.mapJSON(failsOnEmptyData: true)
+        data.responseData = json
+        if let result = json as? [String: Any] {
+            data.errcode = "\(result[ResponseKeyType.errcode.rawValue] as? String ?? "")"
+            data.errmsg = result[ResponseKeyType.errmsg.rawValue] as? String
+            data.uid = result[ResponseKeyType.uid.rawValue] as? String
+            data.redirect_url = result[ResponseKeyType.redirect_url.rawValue] as? String
+            data.result = result[ResponseKeyType.result.rawValue]
+            if let code = data.errcode {
+                if code != "0" {
+                    data.errType = .kConnect_Serve_Error_Type
+                    data.isSuccess = false
+                }
+            }
+        }
         return data
     }
     
     private func handleError(_ error: MoyaError) -> WGConnectData {
         let data = WGConnectData.init()
         data.errType = .kConnect_Unknow_Error_Type
+        data.isSuccess = false
         switch error {
         case let .underlying(urlError, _):
             if let _urlError = urlError as? URLError {
@@ -248,7 +266,7 @@ extension NetLayer {
 }
 
 
-public enum NetErrorType: Int {
+@objc public enum NetErrorType: Int {
     case kConnect_none
     case kConnect_Unknow_Error_Type
     case kConnect_Local_Error_Type
@@ -257,18 +275,29 @@ public enum NetErrorType: Int {
     case kConnect_QiNiu_Error_Type
 }
 
-@objcMembers
-public class WGConnectData: NSObject {
+enum ResponseKeyType: String {
+    case errcode = "errcode"
+    case errmsg = "errmsg"
+    case result = "result"
+    case uid = "uid"
+    case redirect_url = "redirect_url"
+}
+
+
+
+
+@objc public class WGConnectData: NSObject {
     
-    var errcode: Int?
-    var errmsg: String?
-    var status: Int?
-    var totalPage: Int?
-    var responseData: Any?
-    var isSuccess: Bool = false
-    var errType: NetErrorType = .kConnect_none
-    var uid: String?
-    var redirect_url: String?
+    @objc public var errcode: String?
+    @objc public var errmsg: String?
+    public var status: Int?
+    public var totalPage: Int?
+    @objc public var responseData: Any?
+    @objc public var isSuccess: Bool = false
+    @objc public var errType: NetErrorType = .kConnect_none
+    @objc public var uid: String?
+    @objc public var redirect_url: String?
+    @objc public var result: Any?
     
     override init() {
         super.init()
