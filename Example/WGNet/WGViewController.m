@@ -35,14 +35,14 @@
     [[NetLayer net] configDefaultParams:dict];
     //配置共用头
     [[NetLayer net] configDefaultHeaders:headers];
-    
+//    AlbumPersonalApiAll;
     [[NetLayer net] albumRequstWithPath:@"service/sys/sys_config.jsp" params:@{@"act": @"get_ios_config"} callback:^(WGConnectData * _Nonnull data) {
 //        NSLog(@"%@", data.result);
     }];
-    [[NetLayer net] albumRequstWithPath:@"album/personal/all" params:@{@"albumId": @"A201903020936258040206326"} callback:^(WGConnectData * _Nonnull data) {
-        
-    }];
-    
+//    [[NetLayer net] albumRequstWithPath: params:@{@"albumId": @"A201903020936258040206326"} callback:^(WGConnectData * _Nonnull data) {
+//
+//    }];
+//
 	// Do any additional setup after loading the view, typically from a nib.
 }
 

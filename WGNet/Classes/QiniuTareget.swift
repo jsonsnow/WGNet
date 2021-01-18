@@ -1,5 +1,5 @@
 //
-//  WGOrderTargetApi.swift
+//  WGQiniuTaregetAPI.swift
 //  WGNet
 //
 //  Created by chen liang on 2021/1/15.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WGOrderTargetApi: WGBaseTargetAPI {
+class WGQiniuTareget: BaseTarget {
     public convenience init(params: [String: Any], path: String) {
         self.init(paramsClosure: { (target) -> [String : Any] in
             return params

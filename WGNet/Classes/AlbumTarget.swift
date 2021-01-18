@@ -8,7 +8,7 @@
 import UIKit
 import Moya
 
-class WGAlbumTarget: WGBaseTargetAPI {
+class AlbumTarget: BaseTarget {
     public convenience init(params: [String: Any], path: String) {
         self.init(paramsClosure: { (target) -> [String : Any] in
             return params

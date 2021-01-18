@@ -17,7 +17,7 @@ public class ApiPath {
 
 let urlParam = [String: Any]()
 
-@objc open class WGBaseTargetAPI: NSObject {
+@objc open class BaseTarget: NSObject {
     public typealias ParamsClosure = (String) -> [String: Any]
     public typealias BaseUrlClosure = (String) -> String
 
@@ -25,14 +25,26 @@ let urlParam = [String: Any]()
     var apiPath: String
     let paramsClosure: ParamsClosure
     
-    @objc public init(paramsClosure: @escaping ParamsClosure,baseUrlClosure: @escaping BaseUrlClosure,  path: String) {
+    @objc required public init(paramsClosure: @escaping ParamsClosure,baseUrlClosure: @escaping BaseUrlClosure,  path: String) {
         self.paramsClosure = paramsClosure
         self.baseUrlClosure = baseUrlClosure
         self.apiPath = path
     }
+    
+    public convenience init(params: [String: Any], path: String) {
+        self.init(paramsClosure: { (target) -> [String : Any] in
+            return params
+        }, baseUrlClosure: { (target) -> String in
+            return "https://www.wsxcme.com/"
+        }, path: path)
+    }
+    
+    static public func baseUrlStr() -> String {
+        fatalError("error")
+    }
 }
 
-extension WGBaseTargetAPI: TargetType {
+extension BaseTarget: TargetType {
     
     public var baseURL: URL {
         return URL.init(string: baseUrlClosure(type(of: self).description()))!

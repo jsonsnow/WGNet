@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 //mock 服务器
-class MockTargetApi: WGBaseTargetAPI {
+class MockTarget: BaseTarget {
     public convenience init(params: [String: Any], path: String) {
         self.init(paramsClosure: { (target) -> [String : Any] in
             return params
