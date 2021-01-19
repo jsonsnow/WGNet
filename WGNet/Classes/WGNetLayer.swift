@@ -45,12 +45,11 @@ func generateProvider<T: BaseTarget>(with type: T.Type) -> MoyaProvider<T> {
 }
 
 public class NetLayer: NSObject {
-    public typealias HeadersClosure = (String) -> [String: String]?
+    
     public typealias CallbackClosure = (_ data: WGConnectData) -> Void
+    
     @objc public static let net: NetLayer = NetLayer.init()
-    public private(set) var defaultHeades: [String: String]?
-    public private(set) var defaultParams: [String: Any]?
-    public private(set) var netDebugValue: String?
+
     
     private override init() {
         super.init()
@@ -127,7 +126,7 @@ extension NetLayer {
         let json = try? response.mapJSON(failsOnEmptyData: true)
         data.responseData = json
         if let result = json as? [String: Any] {
-            data.errcode = "\(result[ResponseKeyType.errcode.rawValue] as? String ?? "")"
+            data.errcode = "\(result[ResponseKeyType.errcode.rawValue] as? Int ?? 999)"
             data.errmsg = result[ResponseKeyType.errmsg.rawValue] as? String
             data.uid = result[ResponseKeyType.uid.rawValue] as? String
             data.redirect_url = result[ResponseKeyType.redirect_url.rawValue] as? String
@@ -159,20 +158,6 @@ extension NetLayer {
         return data
     }
 }
-
-//MARK: -- DefaultParams
-extension NetLayer {
-    
-    @objc public func configDefaultHeaders(_ headers: [String: String]) {
-        defaultHeades = headers
-    }
-    
-    @objc public func configDefaultParams(_ params: [String: Any]) {
-        defaultParams = params
-    }
-    
-}
-
 
 @objc public enum NetErrorType: Int {
     case kConnect_none

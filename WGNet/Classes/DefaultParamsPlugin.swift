@@ -21,7 +21,7 @@ public class DefaultParamsPlugin: Moya.PluginType {
         var req = URLRequest.init(url: request.url!, cachePolicy: request.cachePolicy, timeoutInterval: request.timeoutInterval)
         req.httpMethod = request.httpMethod
         var headers = req.allHTTPHeaderFields ?? [String: String]()
-        if let _heads = NetLayer.net.defaultHeades {
+        if let _heads = NetConfig.config.defaultHeades {
             headers = headers.merging(_heads, uniquingKeysWith: { (first, _) -> String in
                 return first
             })
@@ -31,7 +31,7 @@ public class DefaultParamsPlugin: Moya.PluginType {
         case let .requestCompositeParameters(bodyParameters: bodyParams, bodyEncoding: encode, urlParameters: _):
             do {
                 var params = bodyParams
-                if let _params = NetLayer.net.defaultParams {
+                if let _params = NetConfig.config.defaultParams {
                     params = params.merging(_params) { (first, _) -> Any in
                         return first
                     }

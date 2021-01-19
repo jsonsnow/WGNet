@@ -13,7 +13,10 @@ class AlbumTarget: BaseTarget {
         self.init(paramsClosure: { (target) -> [String : Any] in
             return params
         }, baseUrlClosure: { (target) -> String in
-            return "https://www.tapbizz.cn/"
+            if let url = NetConfig.config.urlClosure?(target) {
+                return url
+            }
+            return "https://www.wsxcme.com/"
         }, path: path)
     }
 }
