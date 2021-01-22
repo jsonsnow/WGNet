@@ -11,7 +11,7 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 4.1)
   - Result (4.1.0)
-  - WGNet (0.1.1):
+  - WGNet (0.1.3):
     - Moya
 
 DEPENDENCIES:
@@ -35,7 +35,7 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  WGNet: 9f04976479a0d369c3ba2d3f6a9925a671f78f7a
+  WGNet: 9cbe96fa2d236756340bc7533a03c3f5c8cf9a43
 
 PODFILE CHECKSUM: f32c9dd04345cf6f1993b1790d0f08ee271e2e7a
 
