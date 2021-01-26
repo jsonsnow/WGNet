@@ -32,9 +32,9 @@
                               
     };
     //统一配置共用信息
-    [[NetLayer net] configDefaultParams:dict];
+    [[NetConfig config] configDefaultParams:dict];
     //配置共用头
-    [[NetLayer net] configDefaultHeaders:headers];
+    [[NetConfig config] configDefaultHeaders:headers];
 //    AlbumPersonalApiAll;
     [[NetLayer net] albumRequstWithPath:@"service/sys/sys_config.jsp" params:@{@"act": @"get_ios_config"} callback:^(WGConnectData * _Nonnull data) {
 //        NSLog(@"%@", data.result);
