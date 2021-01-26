@@ -13,7 +13,7 @@ public class VipPlugin: Moya.PluginType {
     public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         switch result {
         case .success(let response):
-            if let data = try? response.mapJSON() as? [String: Any] {
+            if let data = (try? response.mapJSON()) as? [String: Any] {
                 if let result = data[ResponseKeyType.result.rawValue] as? [String: Any] {
                     if let vip = result["vip_object"] as? [String: Any] {
                         NetConfig.config.vipClosure?(vip)
